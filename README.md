@@ -15,7 +15,7 @@ haxelib install HornyScript
 
 Alternatively, you can install through Git to get the latest changes:
 ```yml
-haxelib git HornyScript https://github.com/Joalor64GH/HornyScript-RE
+haxelib git HornyScript https://github.com/moxie-coder/HornyScript-RE
 ```
 
 # Tutorial
