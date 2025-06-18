@@ -5,16 +5,6 @@ import hscript.Parser;
 import openfl.Lib;
 import flixel.FlxBasic;
 import flixel.util.FlxColorHScript;
-import llua.Buffer;
-import llua.Convert;
-import llua.Lua;
-import llua.LuaJIT;
-import llua.LuaL;
-import llua.LuaOpen;
-import llua.State;
-import vm.lua.LuaVM;
-import vlc.VLCBitmap;
-import vlc.LibVLC;
 using StringTools;
 
 /*
@@ -29,7 +19,11 @@ class HornyScript extends FlxBasic {
 	public function new(path:String)
 	{
 		super();
+		#if sys
 		code = sys.io.File.getContent(path);
+		#else
+		code = openfl.utils.Assets.getText(path);
+		#end
 		
 		hscript = new Interp();
 		
@@ -79,24 +73,6 @@ class HornyScript extends FlxBasic {
 		setVariable('HSubstate', HornySubstate);
 		setVariable('HObject', HornyObject);
 		setVariable('HScript', HornyScript);
-		setVariable('Lua_helper', Lua_helper);
-		setVariable('Lua_Debug', {
-			"event":Int,
-			"name":String,             // (n)
-			"namewhat":String,         // (n) `global', `local', `field', `method'
-			"what":String,             // (S) `Lua', `C', `main', `tail'
-			"source":String,           // (S)
-			"currentline":Int,         // (l)
-			"nups":Int,                // (u) number of upvalues
-			"linedefined":Int,         // (S)
-			"lastlinedefined":Int,     // (S)
-			"short_src":Array, // (S)
-			"i_ci":Int       // private
-		});
-		setVariable('LuaVM', LuaVM);
-		// vlc shit
-		setVariable('VLCBitmap', VLCBitmap);
-		setVariable('VideoHandler', VideoHandler);
 	}
 
         public function run()
@@ -109,7 +85,7 @@ class HornyScript extends FlxBasic {
 		}
 		catch (e)
 		{
-			Lib.application.window.alert(e.message, "HSCRIPT ERROR!1111");
+			Lib.application.window.alert(e.message, "HornyScript Error!");
 		}
 	}
 
